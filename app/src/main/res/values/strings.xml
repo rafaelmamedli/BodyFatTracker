@@ -75,4 +75,5 @@
     <string name="record_your_start_current_and_goal_weight">Record your start, current and goal weight</string>
     <string name="body_fat">Body Fat</string>
     <string name="body_fat_example">18.46%</string>
+    <string name="you_didn_t_save_any_body_fat">You didn\'t save any body fat</string>
 </resources>
