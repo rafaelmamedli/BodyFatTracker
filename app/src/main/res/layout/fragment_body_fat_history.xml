@@ -8,10 +8,10 @@
     android:background="@color/dark_1">
 
     <TextView
-        android:visibility="visible"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:gravity="center"
-        android:text="You didn't save any body fat"
+        android:text="@string/you_didn_t_save_any_body_fat"
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
