@@ -24,7 +24,7 @@ class CalculatorFragment : Fragment() {
 
     private lateinit var binding: FragmentCalculatorBinding
     private val viewModel: ViewModel by viewModels()
-    private var gender = true
+    private var gender: Boolean? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +66,7 @@ class CalculatorFragment : Fragment() {
             } else {
                 if (toggleButtonGroup.checkedButtonId == View.NO_ID) {
                 }
+
             }
         }
     }
@@ -78,18 +79,18 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun calculateAndSave() {
-            viewModel.result.observe(viewLifecycleOwner) { result ->
-                val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-                val formattedNumber = "${result.substring(0, 4)}%"
-                binding.bodyFatResult.text = formattedNumber
-                val bodyFat = binding.bodyFatResult.text
+        viewModel.result.observe(viewLifecycleOwner) { result ->
+            val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+            val formattedNumber = "${result.substring(0, 4)}%"
+            binding.bodyFatResult.text = formattedNumber
+            val bodyFat = binding.bodyFatResult.text
 
-                binding.saveBtn.setOnClickListener {
-                    if (bodyFat.isNotEmpty() &&formattedNumber > 0.3.toString() && formattedNumber.toString() != "NaN %") {
-                        viewModel.insert(BodyFatModel(0, bodyFat.toString(), currentDate))
-                    }
+            binding.saveBtn.setOnClickListener {
+                if (bodyFat.isNotEmpty() && formattedNumber > 0.3.toString() && formattedNumber.toString() != "NaN %") {
+                    viewModel.insert(BodyFatModel(0, bodyFat.toString(), currentDate))
                 }
             }
+        }
     }
 
     private fun getCalculate(
@@ -110,7 +111,13 @@ class CalculatorFragment : Fragment() {
         val abdomenValue = binding.abdomenEditText.text
         val hipValue = binding.hipEditText.text
         binding.calculate.setOnClickListener {
-            getCalculate(heightValue, weightValue, neckValue, abdomenValue, gender, hipValue)
+            gender?.let { it1 ->
+                getCalculate(
+                    heightValue, weightValue, neckValue, abdomenValue,
+                    it1, hipValue
+                )
+            } ?: toast("Choose Gender")
+
         }
         binding.resetBtn.setOnClickListener {
             heightValue.clear()

@@ -24,7 +24,6 @@ abstract class SwipeDeleteCallBack(context: Context): ItemTouchHelper.Callback()
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        // Handle swipe action
     }
 
     override fun onChildDraw(
