@@ -1,6 +1,5 @@
 package com.rafael.bodyfattracker.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,13 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rafael.bodyfattracker.adapter.RecyclerViewAdapter
-import com.rafael.bodyfattracker.adapter.SwipeDeleteCallBack
+import com.rafael.bodyfattracker.view.adapter.RecyclerViewAdapter
+import com.rafael.bodyfattracker.view.adapter.SwipeDeleteCallBack
 import com.rafael.bodyfattracker.data.model.BodyFatModel
 import com.rafael.bodyfattracker.databinding.FragmentBodyFatHistoryBinding
-import com.rafael.bodyfattracker.util.gone
-import com.rafael.bodyfattracker.util.show
-import com.rafael.bodyfattracker.util.toast
+import com.rafael.bodyfattracker.data.util.gone
+import com.rafael.bodyfattracker.data.util.show
+import com.rafael.bodyfattracker.data.util.toast
 import com.rafael.bodyfattracker.viewmodel.ViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,7 +44,7 @@ class BodyFatHistory : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = RecyclerViewAdapter(ArrayList())
         binding.recyclerView.adapter = adapter
-        getData()
+        observeData()
     }
 
     private fun showSwipeToDeleteToast() {
@@ -59,9 +58,9 @@ class BodyFatHistory : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun getData(){
-        viewModel.getAllResults().observe(viewLifecycleOwner) { values ->
+    private fun observeData() {
+        viewModel.getAllResults()
+        viewModel.allResults.observe(viewLifecycleOwner) { values ->
             val list: ArrayList<BodyFatModel> = arrayListOf()
             if (values.isNullOrEmpty()) {
                 binding.empty.show()
@@ -86,5 +85,6 @@ class BodyFatHistory : Fragment() {
             itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         }
     }
+
 }
 

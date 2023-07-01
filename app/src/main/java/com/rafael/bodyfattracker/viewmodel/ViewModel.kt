@@ -1,13 +1,13 @@
 package com.rafael.bodyfattracker.viewmodel
 
 import android.text.Editable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rafael.bodyfattracker.data.repo.BodyFatRepositoryImpl
 import com.rafael.bodyfattracker.data.model.BodyFatModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.log10
@@ -15,27 +15,28 @@ import kotlin.math.log10
 @HiltViewModel
 class ViewModel @Inject constructor(private val repository: BodyFatRepositoryImpl) : ViewModel() {
     var result = MutableLiveData<String>()
-    var pro :Double = 0.00
+    var pro: Double = 0.00
 
-    fun getAllResults(): LiveData<List<BodyFatModel>> {
-        return repository.getAllResults()
+    private val _allResults = MutableLiveData<List<BodyFatModel>>()
+    val allResults: MutableLiveData<List<BodyFatModel>>
+        get() = _allResults
+
+
+    fun getAllResults() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val results = repository.getAllResults()
+            results.observeForever { bodyFatModels ->
+                _allResults.value = bodyFatModels
+            }
+        }
     }
-
-    fun insert(bodyFat: BodyFatModel) = viewModelScope.launch {
+    fun insert(bodyFat: BodyFatModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(bodyFat)
     }
 
-
-    fun update(bodyFat: BodyFatModel) = viewModelScope.launch {
-        repository.update(bodyFat)
-    }
-
-
-
-    fun delete(bodyFat: BodyFatModel) = viewModelScope.launch {
+    fun delete(bodyFat: BodyFatModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(bodyFat)
     }
-
 
     fun bodyFatProCalculator(
         weight_value: Editable?,
@@ -55,20 +56,24 @@ class ViewModel @Inject constructor(private val repository: BodyFatRepositoryImp
             if (gender == true) {
                 pro = (82.3 * log10(abdomenValue - neckValue) - 70.041 * log10(heightValue) + 36.76)
             } else {
-                if (hip_value != null && hip_value.isNotEmpty()){
+                if (hip_value != null && hip_value.isNotEmpty()) {
                     val hipValue = hip_value.toString().toDouble()
-                    pro = (163.205 * log10(abdomenValue + hipValue - neckValue) - 97.684 * log10(heightValue) - 78.387)
+                    pro = (163.205 * log10(abdomenValue + hipValue - neckValue) - 97.684 * log10(
+                        heightValue
+                    ) - 78.387)
                 } else {
-                    pro  = 0.00
+                    pro = 0.00
 
                 }
             }
-
             result.value = "$pro %"
 
         }
     }
+
 }
+
+
 
 
 

@@ -1,4 +1,4 @@
-package com.rafael.bodyfattracker.adapter
+package com.rafael.bodyfattracker.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.rafael.bodyfattracker.di
+package com.rafael.bodyfattracker.data.di
 
 import android.content.Context
 import androidx.room.Room

@@ -1,4 +1,4 @@
-package com.rafael.bodyfattracker.util
+package com.rafael.bodyfattracker.data.util
 
 import android.view.View
 import android.widget.Toast

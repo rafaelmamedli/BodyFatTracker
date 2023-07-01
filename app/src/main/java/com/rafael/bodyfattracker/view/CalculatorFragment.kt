@@ -10,10 +10,10 @@ import androidx.fragment.app.viewModels
 import com.rafael.bodyfattracker.R
 import com.rafael.bodyfattracker.data.model.BodyFatModel
 import com.rafael.bodyfattracker.databinding.FragmentCalculatorBinding
-import com.rafael.bodyfattracker.util.goTo
-import com.rafael.bodyfattracker.util.gone
-import com.rafael.bodyfattracker.util.show
-import com.rafael.bodyfattracker.util.toast
+import com.rafael.bodyfattracker.data.util.goTo
+import com.rafael.bodyfattracker.data.util.gone
+import com.rafael.bodyfattracker.data.util.show
+import com.rafael.bodyfattracker.data.util.toast
 import com.rafael.bodyfattracker.viewmodel.ViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -46,6 +46,13 @@ class CalculatorFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        calculateAndSave()
+        calculateAndClear()
+
+    }
+
     private fun chooseGender() {
         binding.toggleButtonGroup.addOnButtonCheckedListener { toggleButtonGroup, checkedId, isChecked ->
             if (isChecked) {
@@ -66,16 +73,8 @@ class CalculatorFragment : Fragment() {
             } else {
                 if (toggleButtonGroup.checkedButtonId == View.NO_ID) {
                 }
-
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        calculateAndSave()
-        calculateAndClear()
-
     }
 
     private fun calculateAndSave() {
