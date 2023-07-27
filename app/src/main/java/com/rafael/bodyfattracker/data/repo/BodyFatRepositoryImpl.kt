@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class BodyFatRepositoryImpl @Inject constructor(private val bodyFatDao: BodyFatDao): BodyFatRepository {
 
-    override suspend fun getAllResults(): LiveData<List<BodyFatModel>> {
+    override suspend fun getAllResults(): List<BodyFatModel> {
         return bodyFatDao.getAllResults()
     }
 

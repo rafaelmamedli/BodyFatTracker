@@ -1,6 +1,7 @@
 package com.rafael.bodyfattracker.viewmodel
 
 import android.text.Editable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.rafael.bodyfattracker.data.model.BodyFatModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.log10
 
@@ -18,18 +20,19 @@ class ViewModel @Inject constructor(private val repository: BodyFatRepositoryImp
     var pro: Double = 0.00
 
     private val _allResults = MutableLiveData<List<BodyFatModel>>()
-    val allResults: MutableLiveData<List<BodyFatModel>>
-        get() = _allResults
-
+      val allResults: LiveData<List<BodyFatModel>>
+      get() = _allResults
 
     fun getAllResults() {
         viewModelScope.launch(Dispatchers.Main) {
-            val results = repository.getAllResults()
-            results.observeForever { bodyFatModels ->
-                _allResults.value = bodyFatModels
+            val results = withContext(Dispatchers.IO) {
+                repository.getAllResults()
             }
+            _allResults.value = results
+
         }
     }
+
     fun insert(bodyFat: BodyFatModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(bodyFat)
     }

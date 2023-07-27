@@ -23,6 +23,6 @@ interface BodyFatDao {
     suspend fun update(bodyFat: BodyFatModel)
 
     @Query("SELECT * FROM results")
-     fun getAllResults(): LiveData<List<BodyFatModel>>
+     fun getAllResults(): List<BodyFatModel>
 }
 

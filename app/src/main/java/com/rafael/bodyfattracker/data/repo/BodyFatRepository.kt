@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.rafael.bodyfattracker.data.model.BodyFatModel
 
 interface BodyFatRepository  {
-    suspend fun getAllResults(): LiveData<List<BodyFatModel>>
+    suspend fun getAllResults(): List<BodyFatModel>
     suspend fun insert(bodyFat: BodyFatModel)
 
     suspend fun update(bodyFat: BodyFatModel)
