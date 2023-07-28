@@ -106,7 +106,6 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="@+id/linear_1"
         app:layout_constraintStart_toStartOf="@+id/linear_1"
         app:layout_constraintTop_toBottomOf="@id/toggleButtonGroup">
@@ -303,7 +302,8 @@
                 android:layout_marginStart="100dp"
                 android:inputType="numberDecimal"
                 android:hint="82"
-                android:textColorHint="@color/light_gray"                android:maxLength="3"
+                android:textColorHint="@color/light_gray"
+                android:maxLength="3"
                 android:padding="8dp"
                 android:textColor="@color/dark_4"
                 android:textSize="28sp" />
@@ -315,39 +315,37 @@
 
 
     <LinearLayout
-        android:layout_margin="8dp"
+
+        android:layout_margin="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linear_2">
 
         <Button
-            android:layout_weight="1.1"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textSize="25sp"
-            android:layout_marginTop="18dp"
+            android:textSize="20sp"
             android:backgroundTint="@color/red"
             android:textColor="@color/white"
             android:text="Reset"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/reset_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1" />
 
         <Button
-            android:layout_weight="1.1"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textSize="22sp"
-            android:layout_marginTop="18dp"
+            android:textSize="20sp"
             android:backgroundTint="@color/dark_4"
             android:textColor="@color/white"
             android:text="Calculate"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/calculate"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
+
 
 
 
